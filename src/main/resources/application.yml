@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: yum_recipe_server
+
+  datasource:
+    url: "jdbc:mysql://localhost:3306/recipe?autoReconnect=true&useUnicode=true&serverTimezone=Asia/Seoul"
+    username: recipe
+    password: recipe
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
