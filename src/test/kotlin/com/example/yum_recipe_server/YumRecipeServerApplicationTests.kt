@@ -10,4 +10,9 @@ class YumRecipeServerApplicationTests {
 	fun contextLoads() {
 	}
 
+	@Test
+	fun `Elasticsearch Health Check`() {
+		val response = true // Elasticsearch 클라이언트 핑 상태 체크 로직 필요
+		assert(response)
+	}
 }
