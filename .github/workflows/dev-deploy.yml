@@ -1,0 +1,2 @@
+name: Deploy develop CICD
+on: push
