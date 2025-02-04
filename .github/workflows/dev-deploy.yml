@@ -28,7 +28,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew clean build -x test
 
-      # Docker 이미지 빌드 및 Docker Hub 푸시
+      # Docker 로그인 및 이미지 빌드 & 푸시
       - name: Build and Push Docker Image
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -46,7 +46,7 @@ jobs:
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
 
-      # AWS EC2에 배포 및 컨테이너 실행
+      # AWS EC2 배포 및 컨테이너 실행
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
         id: deploy
@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
-            # 최신 이미지 pull
+            # 최신 Docker 이미지 pull
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}:latest
 
             # 기존 컨테이너 중지 및 삭제
@@ -65,5 +65,5 @@ jobs:
             # docker-compose 실행
             sudo docker-compose -f /home/${{ secrets.AWS_USER }}/app/yum_recipe_server/docker-compose.yml up -d
 
-            # 사용하지 않는 이미지 정리
+            # 사용하지 않는 Docker 이미지 정리
             sudo docker image prune -a -f
